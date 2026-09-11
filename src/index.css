@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0b0b0c;
+    --bg-surface: rgba(241, 241, 239, 0.04);
+    --bg-card: rgba(241, 241, 239, 0.025);
+    --border-color: rgba(241, 241, 239, 0.12);
+    --border-subtle: rgba(241, 241, 239, 0.08);
+    --text-bone: #f1f1ef;
+    --text-bone-muted: rgba(241, 241, 239, 0.55);
+    --text-bone-dim: rgba(241, 241, 239, 0.35);
+    --gilt: #d4af37;
+    --gilt-glow: rgba(212, 175, 55, 0.35);
+    --gilt-faint: rgba(212, 175, 55, 0.15);
+    --ink: #060505;
+  }
+
+  html:not(.dark) {
+    --bg-primary: #f5f5f2;
+    --bg-surface: rgba(18, 18, 20, 0.05);
+    --bg-card: rgba(18, 18, 20, 0.03);
+    --border-color: rgba(18, 18, 20, 0.14);
+    --border-subtle: rgba(18, 18, 20, 0.08);
+    --text-bone: #121214;
+    --text-bone-muted: rgba(18, 18, 20, 0.65);
+    --text-bone-dim: rgba(18, 18, 20, 0.4);
+    --gilt: #9e791b;
+    --gilt-glow: rgba(158, 121, 27, 0.3);
+    --gilt-faint: rgba(158, 121, 27, 0.12);
+    --ink: #ffffff;
+  }
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-bone);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.display {
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.display-italic {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.body-copy {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-bone-muted);
+  line-height: 1.68;
+}
+
+.text-bone {
+  color: var(--text-bone);
+}
+
+.text-gilt {
+  color: var(--gilt);
+}
+
+.bg-gilt {
+  background-color: var(--gilt);
+}
+
+.border-bone {
+  border-color: var(--border-color);
+}
+
+/* 3D Spatial Canvas and perspective styles matching scfo.de */
+.spatial-perspective {
+  perspective: 1700px;
+  transform-style: preserve-3d;
+}
+
+.spatial-orientation {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Custom scrollbar matching dark luxury */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.5);
+}
