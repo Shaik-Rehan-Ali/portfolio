@@ -14,9 +14,10 @@ const SECTION_IDS = [
   'arbeiten',
   'studio',
   'prozess',
-  'faq',
+  'fragen',
   'system',
   'aktivitaet',
+  'logos',
   'kontakt',
 ];
 
@@ -105,7 +106,14 @@ const SECTION_POSES: Pose[] = [
     scale: 1.15,
     mPosX: 0, mPosY: -1.0, mPosZ: -1.0, mScale: 0.8,
   },
-  // 10: Contact (Majestic centerpiece)
+  // 10: Brand Logos Showcase (King positioned on right gazing inward)
+  {
+    posX: 2.8, posY: -0.2, posZ: -0.4,
+    rotX: 0.12, rotY: -0.65, rotZ: 0.05,
+    scale: 1.25,
+    mPosX: 0, mPosY: -0.9, mPosZ: -0.6, mScale: 0.85,
+  },
+  // 11: Contact (Majestic centerpiece)
   {
     posX: 0, posY: -0.1, posZ: -0.4,
     rotX: 0.05, rotY: 0.0, rotZ: 0.0,

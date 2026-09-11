@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Menu, X, Sun, Moon, ArrowUpRight, Crown } from 'lucide-react';
+import { Menu, X, Sun, Moon, ArrowUpRight, Crown, Sparkles } from 'lucide-react';
+import { LogoOption } from '../logos';
 
 interface NavbarProps {
   isDark: boolean;
   onToggleTheme: () => void;
   onOpenContact: () => void;
+  onOpenLogoSelector: () => void;
+  selectedLogo: LogoOption;
   activeSection: string;
 }
 
@@ -12,6 +15,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDark,
   onToggleTheme,
   onOpenContact,
+  onOpenLogoSelector,
+  selectedLogo,
   activeSection,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,15 +49,37 @@ export const Navbar: React.FC<NavbarProps> = ({
           id="main-navbar"
           className="relative mx-auto hidden w-full flex-row items-center justify-between rounded-full border border-bone/15 bg-[#0b0b0c]/80 px-6 py-2.5 backdrop-blur-xl transition-all duration-300 shadow-[0_10px_35px_-10px_rgba(0,0,0,0.8)] lg:flex"
         >
-          {/* Logo with King Crown Icon */}
-          <a
-            href="#start"
-            className="eyebrow flex items-center gap-2.5 text-bone transition-opacity hover:opacity-85"
-            style={{ letterSpacing: '0.3em' }}
-          >
-            <Crown className="size-4 text-gilt" />
-            <span className="font-bold">REHAN ALI SHAIK</span>
-          </a>
+          {/* Logo with King Crown or Selected Mark */}
+          <div className="flex items-center gap-3">
+            <a
+              href="#start"
+              className="eyebrow flex items-center gap-2.5 text-bone transition-opacity hover:opacity-85"
+              style={{ letterSpacing: '0.3em' }}
+            >
+              {selectedLogo.imageSrc ? (
+                <img
+                  src={selectedLogo.imageSrc}
+                  alt={selectedLogo.name}
+                  referrerPolicy="no-referrer"
+                  className="size-7 rounded-full object-cover border border-gilt/40 ring-1 ring-gilt/20 shadow-md transition-transform hover:scale-105"
+                />
+              ) : (
+                <Crown className="size-4 text-gilt" />
+              )}
+              <span className="font-bold">REHAN ALI SHAIK</span>
+            </a>
+
+            <button
+              id="change-logo-btn-desktop"
+              type="button"
+              onClick={onOpenLogoSelector}
+              title="Review & Select Brand Logo"
+              className="group flex items-center gap-1.5 rounded-full border border-gilt/30 bg-gilt/10 px-2.5 py-1 text-[0.56rem] text-gilt font-mono transition-all hover:bg-gilt hover:text-[#0b0b0c] hover:border-gilt shadow-sm"
+            >
+              <Sparkles className="size-2.5 transition-transform group-hover:rotate-12" />
+              <span>Sample Logos</span>
+            </button>
+          </div>
 
           {/* Desktop Nav Links */}
           <nav className="flex items-center gap-7">
@@ -112,14 +139,34 @@ export const Navbar: React.FC<NavbarProps> = ({
           id="mobile-navbar"
           className="flex w-full items-center justify-between rounded-full border border-bone/15 bg-[#0b0b0c]/85 px-4 py-2.5 backdrop-blur-xl lg:hidden shadow-[0_10px_35px_-10px_rgba(0,0,0,0.8)]"
         >
-          <a
-            href="#start"
-            className="eyebrow flex items-center gap-2 text-bone"
-            style={{ letterSpacing: '0.24em' }}
-          >
-            <Crown className="size-3.5 text-gilt" />
-            <span className="font-bold text-xs">REHAN ALI SHAIK</span>
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="#start"
+              className="eyebrow flex items-center gap-2 text-bone"
+              style={{ letterSpacing: '0.24em' }}
+            >
+              {selectedLogo.imageSrc ? (
+                <img
+                  src={selectedLogo.imageSrc}
+                  alt={selectedLogo.name}
+                  referrerPolicy="no-referrer"
+                  className="size-6 rounded-full object-cover border border-gilt/40 shadow-sm"
+                />
+              ) : (
+                <Crown className="size-3.5 text-gilt" />
+              )}
+              <span className="font-bold text-xs">REHAN ALI SHAIK</span>
+            </a>
+
+            <button
+              id="change-logo-btn-mobile"
+              type="button"
+              onClick={onOpenLogoSelector}
+              className="rounded-full border border-gilt/30 bg-gilt/10 px-2 py-0.5 text-[0.52rem] text-gilt font-mono"
+            >
+              Logos
+            </button>
+          </div>
 
           <div className="flex items-center gap-2">
             {/* Mobile Dark Mode Toggle */}
@@ -155,8 +202,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           className="pointer-events-auto fixed inset-0 z-50 flex flex-col bg-[#0b0b0c]/95 p-6 backdrop-blur-2xl lg:hidden"
         >
           <div className="flex items-center justify-between border-b border-bone/10 pb-4">
-            <div className="flex items-center gap-2">
-              <Crown className="size-4 text-gilt" />
+            <div className="flex items-center gap-2.5">
+              {selectedLogo.imageSrc ? (
+                <img
+                  src={selectedLogo.imageSrc}
+                  alt={selectedLogo.name}
+                  referrerPolicy="no-referrer"
+                  className="size-7 rounded-full object-cover border border-gilt/40"
+                />
+              ) : (
+                <Crown className="size-4 text-gilt" />
+              )}
               <span className="eyebrow text-bone font-bold text-xs" style={{ letterSpacing: '0.24em' }}>
                 REHAN ALI SHAIK
               </span>
@@ -168,6 +224,25 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-label="Close mobile navigation"
             >
               <X className="size-5" />
+            </button>
+          </div>
+
+          <div className="py-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenLogoSelector();
+              }}
+              className="flex w-full items-center justify-between rounded-lg border border-gilt/20 bg-gilt/5 px-3.5 py-2.5 text-xs text-gilt"
+            >
+              <span className="flex items-center gap-2">
+                <Sparkles className="size-3.5" />
+                <span>Review & Select Portfolio Logo</span>
+              </span>
+              <span className="font-mono text-[0.6rem] uppercase tracking-wider text-bone/60">
+                {selectedLogo.name} →
+              </span>
             </button>
           </div>
 

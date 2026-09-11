@@ -22,6 +22,9 @@ import { ProjectDetailModal } from './components/ProjectDetailModal';
 import { SystemBento } from './components/SystemBento';
 import { ActivityHeatmap } from './components/ActivityHeatmap';
 import { Captcha } from './components/Captcha';
+import { LogoSelectorModal } from './components/LogoSelectorModal';
+import { BrandLogoShowcase } from './components/BrandLogoShowcase';
+import { LOGO_OPTIONS, LogoOption } from './logos';
 import {
   PROJECTS_DATA,
   STATS_DATA,
@@ -43,6 +46,7 @@ const SECTION_IDS = [
   'fragen',
   'system',
   'aktivitaet',
+  'logos',
   'kontakt',
   'footer',
 ];
@@ -54,6 +58,26 @@ export default function App() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeFaqIndex, setActiveFaqIndex] = useState(0);
+
+  // Logo selection state (persisted in localStorage)
+  const [selectedLogoId, setSelectedLogoId] = useState<string>(() => {
+    try {
+      return localStorage.getItem('assassin064_portfolio_logo') || 'geometric-king';
+    } catch {
+      return 'geometric-king';
+    }
+  });
+  const [logoModalOpen, setLogoModalOpen] = useState(false);
+
+  const selectedLogo: LogoOption =
+    LOGO_OPTIONS.find((l) => l.id === selectedLogoId) || LOGO_OPTIONS[0];
+
+  const handleSelectLogo = (id: string) => {
+    setSelectedLogoId(id);
+    try {
+      localStorage.setItem('assassin064_portfolio_logo', id);
+    } catch {}
+  };
 
   // In-page contact form state
   const [inPageName, setInPageName] = useState('');
@@ -203,6 +227,8 @@ export default function App() {
         isDark={isDark}
         onToggleTheme={toggleTheme}
         onOpenContact={() => setContactModalOpen(true)}
+        onOpenLogoSelector={() => setLogoModalOpen(true)}
+        selectedLogo={selectedLogo}
         activeSection={activeSection}
       />
 
@@ -711,6 +737,36 @@ export default function App() {
         </section>
 
         {/* =========================================
+            SECTION 10: BRAND LOGOS (EXPLORATIONS)
+        ========================================= */}
+        <section
+          id="logos"
+          aria-labelledby="logos-heading"
+          className="relative flex min-h-[100svh] items-center px-6 py-20 md:px-12"
+        >
+          <div className="relative mx-auto w-full max-w-6xl">
+            <header className="mb-8 max-w-xl">
+              <p className="eyebrow mb-3 text-gilt flex items-center gap-2">
+                <span className="tabular-nums opacity-70">10</span>
+                <span>Brand Identity & Logo Suite</span>
+              </p>
+              <h2 id="logos-heading" className="display text-[clamp(1.8rem,3.5vw,2.8rem)] text-bone">
+                Sample logos for <span className="display-italic">your portfolio</span>
+              </h2>
+              <p className="body-copy mt-2.5 max-w-md text-sm">
+                Curated identity explorations tailored to your craft. Select any logo below to activate it dynamically across your navigation, mobile bar, and footer.
+              </p>
+            </header>
+
+            <BrandLogoShowcase
+              selectedLogoId={selectedLogoId}
+              onSelectLogo={handleSelectLogo}
+              onOpenModal={() => setLogoModalOpen(true)}
+            />
+          </div>
+        </section>
+
+        {/* =========================================
             SECTION 10: CONTACT (PROJECT ENQUIRY)
         ========================================= */}
         <section
@@ -832,9 +888,18 @@ export default function App() {
         >
           <div className="mx-auto max-w-6xl">
             <div className="max-w-xl">
-              <p className="eyebrow mb-2 text-gilt flex items-center gap-2">
-                <Crown className="size-3.5 text-gilt" />
-                <span>REHAN ALI SHAIK</span>
+              <p className="eyebrow mb-2 text-gilt flex items-center gap-2.5">
+                {selectedLogo.imageSrc ? (
+                  <img
+                    src={selectedLogo.imageSrc}
+                    alt={selectedLogo.name}
+                    referrerPolicy="no-referrer"
+                    className="size-5 rounded-full object-cover border border-gilt/40 ring-1 ring-gilt/20 shadow-sm"
+                  />
+                ) : (
+                  <Crown className="size-3.5 text-gilt" />
+                )}
+                <span className="font-bold">REHAN ALI SHAIK</span>
                 <span className="text-bone/30">•</span>
                 <span className="font-mono text-bone/60">@assassin064</span>
               </p>
@@ -1017,6 +1082,14 @@ export default function App() {
         isOpen={contactModalOpen}
         onClose={() => setContactModalOpen(false)}
         isDark={isDark}
+      />
+
+      {/* 8. Logo Selector Modal */}
+      <LogoSelectorModal
+        isOpen={logoModalOpen}
+        onClose={() => setLogoModalOpen(false)}
+        selectedLogoId={selectedLogoId}
+        onSelectLogo={handleSelectLogo}
       />
     </div>
   );

@@ -23,6 +23,7 @@ export const PageChrome: React.FC<PageChromeProps> = ({
     { id: 'fragen', label: 'FAQ' },
     { id: 'system', label: 'The System' },
     { id: 'aktivitaet', label: 'Activity' },
+    { id: 'logos', label: 'Brand Logos' },
     { id: 'kontakt', label: 'Contact' },
     { id: 'footer', label: 'Footer' },
   ];
